@@ -20,6 +20,15 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <id>jch</id>
+            <name>Jacek Chleborowicz</name>
+            <email>j.chleborowicz@gmail.com</email>
+            <timezone>Europe/Warsaw</timezone>
+        </developer>
+    </developers>
+
     <scm>
         <url>https://github.com/jchleborowicz/statest</url>
         <connection>scm:git:https://github.com/jchleborowicz/statest.git</connection>
