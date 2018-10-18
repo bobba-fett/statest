@@ -1,0 +1,4 @@
+rootProject.name = 'statest-parent'
+
+include ':statest'
+include ':statest-rest-assured-code-generator'
