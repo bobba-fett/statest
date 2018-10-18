@@ -51,7 +51,7 @@
         <commons-io.version>2.5</commons-io.version>
         <commons-lang3.version>3.6</commons-lang3.version>
         <guava.version>22.0</guava.version>
-        <jackson.version>2.9.0</jackson.version>
+        <jackson.version>2.9.7</jackson.version>
         <javassist.version>3.12.1.GA</javassist.version>
         <junit.version>4.12</junit.version>
         <lombok.version>1.16.18</lombok.version>
