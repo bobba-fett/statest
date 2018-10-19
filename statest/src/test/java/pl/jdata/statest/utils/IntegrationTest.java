@@ -1,9 +1,9 @@
 package pl.jdata.statest.utils;
 
+import org.junit.runner.RunWith;
 import pl.jdata.statest.common.junit.Statest;
 import pl.jdata.statest.common.junit.StatestRunner;
 import pl.jdata.statest.common.junit.TestState;
-import org.junit.runner.RunWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

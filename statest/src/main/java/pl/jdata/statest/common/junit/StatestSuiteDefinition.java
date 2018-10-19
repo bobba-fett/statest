@@ -1,11 +1,11 @@
 package pl.jdata.statest.common.junit;
 
-import com.google.common.collect.ImmutableList;
-import org.junit.runner.Runner;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import com.google.common.collect.ImmutableList;
+import org.junit.runner.Runner;
 
 public class StatestSuiteDefinition {
 

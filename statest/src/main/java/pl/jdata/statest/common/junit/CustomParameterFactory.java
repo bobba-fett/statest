@@ -6,5 +6,12 @@ public interface CustomParameterFactory<T extends Annotation> {
 
     Class<T> getSupportedAnnotationClass();
 
-    Object getParameter(T annotation, Class<?> parameterClass, TestStateRepository testStateRepository);
+    /**
+     * This method assuress that generated parameter is of class <i>parameterClass</i>.
+     *
+     * @param annotation a test generator annotation.
+     * @param parameterClass expected generated parameter class.
+     * @param <S> target parameter class
+     */
+    <S> S getParameter(T annotation, Class<S> parameterClass, TestStateRepository testStateRepository);
 }

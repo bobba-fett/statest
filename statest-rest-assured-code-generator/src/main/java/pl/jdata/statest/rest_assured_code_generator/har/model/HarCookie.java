@@ -1,4 +1,4 @@
-package pl.jdata.statest.restAssuredCodeGenerator.har.model;
+package pl.jdata.statest.rest_assured_code_generator.har.model;
 
 import lombok.Data;
 

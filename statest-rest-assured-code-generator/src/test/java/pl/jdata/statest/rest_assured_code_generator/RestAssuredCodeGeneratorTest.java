@@ -1,8 +1,7 @@
-package pl.jdata.statest.restAssuredCodeGenerator;
+package pl.jdata.statest.rest_assured_code_generator;
 
 import org.hamcrest.Matcher;
 import org.junit.Test;
-import pl.jdata.statest.restAssuredCodeGenerator.RestAssuredCodeGenerator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;

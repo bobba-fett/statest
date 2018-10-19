@@ -1,9 +1,9 @@
-package pl.jdata.statest.restAssuredCodeGenerator.har.model;
-
-import lombok.Data;
+package pl.jdata.statest.rest_assured_code_generator.har.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import lombok.Data;
 
 @Data
 public class HarPostData {

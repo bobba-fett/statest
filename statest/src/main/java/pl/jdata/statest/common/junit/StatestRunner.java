@@ -1,12 +1,18 @@
 package pl.jdata.statest.common.junit;
 
+import java.io.File;
+import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimaps;
-import pl.jdata.statest.utils.StatestCommonUtils;
-import pl.jdata.statest.common.AnnotatedParameterFactories;
 import org.junit.Test;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
@@ -15,14 +21,8 @@ import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
-
-import java.io.File;
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import pl.jdata.statest.common.AnnotatedParameterFactories;
+import pl.jdata.statest.utils.StatestCommonUtils;
 
 public class StatestRunner extends BlockJUnit4ClassRunner {
 
@@ -129,7 +129,7 @@ public class StatestRunner extends BlockJUnit4ClassRunner {
     protected void runChild(FrameworkMethod method, final RunNotifier notifier) {
         notifier.addListener(new RunListener() {
             @Override
-            public void testFailure(Failure failure) throws Exception {
+            public void testFailure(Failure failure) {
                 notifier.pleaseStop();
             }
         });

@@ -1,15 +1,15 @@
 package pl.jdata.statest.utils;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
 import javassist.NotFoundException;
 import org.apache.commons.lang3.ClassUtils;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 public final class StatestCommonUtils {
 
@@ -24,9 +24,9 @@ public final class StatestCommonUtils {
         }
     }
 
-    public static List<Method> getMethodsAnnotatedWith(Class<?> aClass, Class<?> annotationClass) {
+    public static List<Method> getMethodsAnnotatedWith(Class<?> clazz, Class<?> annotationClass) {
         final List<Method> result = new ArrayList<>();
-        final Method[] declaredMethods = aClass.getMethods();
+        final Method[] declaredMethods = clazz.getMethods();
         for (Method declaredMethod : declaredMethods) {
             if (containsAnnotation(declaredMethod, annotationClass)) {
                 result.add(declaredMethod);
@@ -44,17 +44,17 @@ public final class StatestCommonUtils {
         return getAnnotationByType(declaredAnnotations, annotationClass);
     }
 
-    public static <T> T getClassAnnotation(Class<?> aClass, Class<T> annotationClass) {
-        return getAnnotationByType(aClass.getDeclaredAnnotations(), annotationClass);
+    public static <T> T getClassAnnotation(Class<?> clazz, Class<T> annotationClass) {
+        return getAnnotationByType(clazz.getDeclaredAnnotations(), annotationClass);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T getAnnotationByType(Annotation[] declaredAnnotations, Class<T> annotationClass) {
         if (declaredAnnotations == null) {
             return null;
         }
         for (Annotation declaredAnnotation : declaredAnnotations) {
             if (declaredAnnotation.annotationType() == annotationClass) {
-                //noinspection unchecked
                 return (T) declaredAnnotation;
             }
         }
@@ -74,18 +74,6 @@ public final class StatestCommonUtils {
     public static String createCodePointer(Method method) {
         final int lineNumber = getMethodLineNumber(method);
         return createCodePointer(method.getDeclaringClass().getName(), method.getName(), lineNumber);
-    }
-
-    private static int getMethodLineNumber(Method method) {
-        ClassPool pool = ClassPool.getDefault();
-        try {
-            CtClass cc = pool.get(method.getDeclaringClass().getCanonicalName());
-            CtMethod javassistMethod = cc.getDeclaredMethod(method.getName());
-            return javassistMethod.getMethodInfo().getLineNumber(0);
-        } catch (NotFoundException e) {
-            //todo jch deal with exception thrown
-            return 0;
-        }
     }
 
     /**
@@ -109,6 +97,18 @@ public final class StatestCommonUtils {
         final StackTraceElement stackTraceElement =
                 Thread.currentThread().getStackTrace()[-callStackRelativePosition + 2];
         return createCodePointer(stackTraceElement);
+    }
+
+    private static int getMethodLineNumber(Method method) {
+        ClassPool pool = ClassPool.getDefault();
+        try {
+            CtClass cc = pool.get(method.getDeclaringClass().getCanonicalName());
+            CtMethod javassistMethod = cc.getDeclaredMethod(method.getName());
+            return javassistMethod.getMethodInfo().getLineNumber(0);
+        } catch (NotFoundException e) {
+            //todo jch deal with exception thrown
+            return 0;
+        }
     }
 
 }

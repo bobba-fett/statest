@@ -1,14 +1,14 @@
 package pl.jdata.statest.common.junit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.apache.commons.lang3.Validate.notEmpty;
 
@@ -33,7 +33,7 @@ public class FileBasedTestStateRepository implements TestStateRepository {
     }
 
     @Override
-    public synchronized <T> T load(String objectId, Class<T> aClass) {
+    public synchronized <T> T load(String objectId, Class<T> clazz) {
         notEmpty(objectId);
         final File source = new File(baseDirectory, objectId);
 
@@ -45,19 +45,19 @@ public class FileBasedTestStateRepository implements TestStateRepository {
             throw new RuntimeException("File expected: " + source);
         }
 
-        return loadFromFile(source, aClass);
+        return loadFromFile(source, clazz);
     }
 
-    private <T> T loadFromFile(File source, Class<T> aClass) {
+    @SuppressWarnings("unchecked")
+    private <T> T loadFromFile(File source, Class<T> clazz) {
         ObjectInputStream in = null;
         try {
             in = new ObjectInputStream(new FileInputStream(source));
             final Object result = in.readObject();
-            if (!aClass.isInstance(result)) {
+            if (!clazz.isInstance(result)) {
                 throw new RuntimeException("Object read from " + source + " is not of expected type. Expected type: "
-                        + aClass.getName() + ", actual type: " + result.getClass().getName());
+                        + clazz.getName() + ", actual type: " + result.getClass().getName());
             }
-            //noinspection unchecked
             return (T) result;
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException("Exception when reading file " + source, e);

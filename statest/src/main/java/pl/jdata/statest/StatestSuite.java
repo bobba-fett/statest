@@ -1,8 +1,8 @@
 package pl.jdata.statest;
 
+import org.junit.runner.RunWith;
 import pl.jdata.statest.common.junit.StatestSuiteDefinition;
 import pl.jdata.statest.common.junit.StatestSuiteJUnitRunner;
-import org.junit.runner.RunWith;
 
 @RunWith(StatestSuiteJUnitRunner.class)
 public class StatestSuite {

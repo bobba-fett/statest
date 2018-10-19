@@ -1,13 +1,13 @@
 package pl.jdata.statest.common.junit;
 
+import java.util.concurrent.TimeUnit;
+
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.TimeUnit;
 
 public class WaitRunner extends Runner {
 

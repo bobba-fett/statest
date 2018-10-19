@@ -1,13 +1,13 @@
 package pl.jdata.statest.common;
 
-import com.google.common.collect.ImmutableMap;
-import pl.jdata.statest.common.junit.CustomParameterFactory;
-import pl.jdata.statest.common.junit.TestStateRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Map;
 import java.util.Random;
+
+import com.google.common.collect.ImmutableMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pl.jdata.statest.common.junit.CustomParameterFactory;
+import pl.jdata.statest.common.junit.TestStateRepository;
 
 public class TestGenerateParameterFactory implements CustomParameterFactory<TestGenerate> {
 
@@ -24,19 +24,20 @@ public class TestGenerateParameterFactory implements CustomParameterFactory<Test
     }
 
     @Override
-    public Object getParameter(TestGenerate annotation, Class<?> parameterClass,
+    public <T> T getParameter(TestGenerate annotation, Class<T> parameterClass,
                                TestStateRepository testStateRepository) {
-        final ParameterValueGenerator<?> parameterValueGenerator = getParameterGenerator(parameterClass);
+        final ParameterValueGenerator<T> parameterValueGenerator = getParameterGenerator(parameterClass);
 
-        final Object result = parameterValueGenerator.generate();
+        final T result = parameterValueGenerator.generate();
 
         LOGGER.info("Generated parameter value: " + result);
 
         return result;
     }
 
-    private ParameterValueGenerator<?> getParameterGenerator(Class<?> parameterClass) {
-        final ParameterValueGenerator<?> result = PARAMETER_GENERATORS.get(parameterClass);
+    private <T> ParameterValueGenerator<T> getParameterGenerator(Class<T> parameterClass) {
+        @SuppressWarnings("unchecked")
+        final ParameterValueGenerator<T> result = (ParameterValueGenerator<T>) PARAMETER_GENERATORS.get(parameterClass);
 
         if (result == null) {
             throw new RuntimeException(

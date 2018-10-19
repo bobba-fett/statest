@@ -1,17 +1,17 @@
-package pl.jdata.statest.restAssuredCodeGenerator.har;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import pl.jdata.statest.restAssuredCodeGenerator.har.model.HarEntry;
-import pl.jdata.statest.restAssuredCodeGenerator.har.model.HarModel;
-import pl.jdata.statest.restAssuredCodeGenerator.har.model.HarPostData;
-import pl.jdata.statest.restAssuredCodeGenerator.har.model.HarRequest;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package pl.jdata.statest.rest_assured_code_generator.har;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pl.jdata.statest.rest_assured_code_generator.har.model.HarEntry;
+import pl.jdata.statest.rest_assured_code_generator.har.model.HarModel;
+import pl.jdata.statest.rest_assured_code_generator.har.model.HarPostData;
+import pl.jdata.statest.rest_assured_code_generator.har.model.HarRequest;
 
 import static org.apache.commons.lang3.Validate.notNull;
 

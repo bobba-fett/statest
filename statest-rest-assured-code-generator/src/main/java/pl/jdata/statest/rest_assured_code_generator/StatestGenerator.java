@@ -1,27 +1,9 @@
-package pl.jdata.statest.restAssuredCodeGenerator;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Joiner;
-import com.google.common.collect.Maps;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.CharUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
-import pl.jdata.statest.restAssuredCodeGenerator.har.HarDeserializer;
-import pl.jdata.statest.restAssuredCodeGenerator.har.model.HarContent;
-import pl.jdata.statest.restAssuredCodeGenerator.har.model.HarCookie;
-import pl.jdata.statest.restAssuredCodeGenerator.har.model.HarEntry;
-import pl.jdata.statest.restAssuredCodeGenerator.har.model.HarHeader;
-import pl.jdata.statest.restAssuredCodeGenerator.har.model.HarLog;
-import pl.jdata.statest.restAssuredCodeGenerator.har.model.HarModel;
-import pl.jdata.statest.restAssuredCodeGenerator.har.model.HarPostData;
-import pl.jdata.statest.restAssuredCodeGenerator.har.model.HarRequest;
-import pl.jdata.statest.restAssuredCodeGenerator.har.model.HarResponse;
+package pl.jdata.statest.rest_assured_code_generator;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -29,6 +11,25 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Maps;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.CharUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
+import pl.jdata.statest.rest_assured_code_generator.har.HarDeserializer;
+import pl.jdata.statest.rest_assured_code_generator.har.model.HarContent;
+import pl.jdata.statest.rest_assured_code_generator.har.model.HarCookie;
+import pl.jdata.statest.rest_assured_code_generator.har.model.HarEntry;
+import pl.jdata.statest.rest_assured_code_generator.har.model.HarHeader;
+import pl.jdata.statest.rest_assured_code_generator.har.model.HarLog;
+import pl.jdata.statest.rest_assured_code_generator.har.model.HarModel;
+import pl.jdata.statest.rest_assured_code_generator.har.model.HarPostData;
+import pl.jdata.statest.rest_assured_code_generator.har.model.HarRequest;
+import pl.jdata.statest.rest_assured_code_generator.har.model.HarResponse;
 
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.defaultIfEmpty;
@@ -50,7 +51,7 @@ public class StatestGenerator {
         this.outputStream = outputStream;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         if (args.length != 1) {
             System.out.println("ERROR: Please provide HAR file name as a run parameter.");
             System.exit(-1);
@@ -207,7 +208,7 @@ public class StatestGenerator {
                 text = content.getText();
             }
             try {
-                FileUtils.write(new File(outputFileName), text);
+                FileUtils.write(new File(outputFileName), text, StandardCharsets.UTF_8);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -247,7 +248,7 @@ public class StatestGenerator {
             if (postData.getMimeType().equals("application/json")) {
                 final File file = new File(bodyFileName);
                 try {
-                    FileUtils.write(file, formatJson(postData.getText()));
+                    FileUtils.write(file, formatJson(postData.getText()), StandardCharsets.UTF_8);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -334,12 +335,7 @@ public class StatestGenerator {
     }
 
     public void decreaseIndent() {
-        decreaseIndent(1);
-    }
-
-    @SuppressWarnings("SameParameterValue")
-    private void decreaseIndent(int indent) {
-        indentLevel -= Math.abs(indent);
+        indentLevel -= 1;
     }
 
     private void line(String line) {

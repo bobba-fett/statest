@@ -1,10 +1,10 @@
-package pl.jdata.statest.restAssuredCodeGenerator.har.model;
-
-import com.google.common.base.Joiner;
-import lombok.Data;
+package pl.jdata.statest.rest_assured_code_generator.har.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.common.base.Joiner;
+import lombok.Data;
 
 @Data
 public class HarRequest {

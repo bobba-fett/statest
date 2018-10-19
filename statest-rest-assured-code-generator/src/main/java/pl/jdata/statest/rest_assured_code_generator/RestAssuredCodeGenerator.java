@@ -1,4 +1,10 @@
-package pl.jdata.statest.restAssuredCodeGenerator;
+package pl.jdata.statest.rest_assured_code_generator;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,17 +17,11 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
-import pl.jdata.statest.utils.StatestCommonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import pl.jdata.statest.utils.StatestCommonUtils;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
@@ -85,13 +85,15 @@ public final class RestAssuredCodeGenerator {
 
             return new NodeHandlerFactory() {
                 @Override
-                public <T extends JsonNode> NodeHandler<T> getHandler(
-                        Class<T> nodeClass) {
-                    //noinspection unchecked
+                public <T extends JsonNode> NodeHandler<T> getHandler(Class<T> nodeClass) {
+
+                    @SuppressWarnings("unchecked")
                     final NodeHandler<T> result = (NodeHandler<T>) nodeHandlers.get(nodeClass);
+
                     if (result == null) {
                         throw new RuntimeException("Unexpected node type: " + nodeClass);
                     }
+
                     return result;
                 }
             };
@@ -116,8 +118,8 @@ public final class RestAssuredCodeGenerator {
             lines.add(result);
         }
 
-        private NodeHandler getNodeHandler(Class<? extends JsonNode> aClass) {
-            return nodeHandlerFactory.getHandler(aClass);
+        private NodeHandler getNodeHandler(Class<? extends JsonNode> clazz) {
+            return nodeHandlerFactory.getHandler(clazz);
         }
 
         private static String createBodyText(String field, String assertion) {
@@ -159,12 +161,15 @@ public final class RestAssuredCodeGenerator {
                 return Joiner.on('\n').join(result);
             }
 
-            @SuppressWarnings("unchecked")
             private String generateAssertions(String prefix, String name, JsonNode node,
                                               NodeHandlerFactory nodeHandlerFactory) {
                 notNull(node);
                 final NodeHandler nodeHandler = nodeHandlerFactory.getHandler(node.getClass());
-                return nodeHandler.generateAssertions(prefixed(prefix, name), node, nodeHandlerFactory);
+
+                @SuppressWarnings("unchecked")
+                final String result = nodeHandler.generateAssertions(prefixed(prefix, name), node, nodeHandlerFactory);
+
+                return result;
             }
 
         }
@@ -193,7 +198,7 @@ public final class RestAssuredCodeGenerator {
             }
         }
 
-        private static abstract class AbstractValueNodeHandler<T extends JsonNode> implements NodeHandler<T> {
+        private abstract static class AbstractValueNodeHandler<T extends JsonNode> implements NodeHandler<T> {
             @Override
             public String generateAssertions(String context, T node,
                                              NodeHandlerFactory nodeHandlerFactory) {

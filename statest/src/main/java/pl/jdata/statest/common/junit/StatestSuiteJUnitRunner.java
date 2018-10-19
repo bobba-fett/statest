@@ -1,14 +1,5 @@
 package pl.jdata.statest.common.junit;
 
-import pl.jdata.statest.utils.StatestCommonUtils;
-import org.junit.runner.Description;
-import org.junit.runner.Runner;
-import org.junit.runner.notification.Failure;
-import org.junit.runner.notification.RunListener;
-import org.junit.runner.notification.RunNotifier;
-import org.junit.runners.ParentRunner;
-import org.junit.runners.model.InitializationError;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -17,6 +8,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
+
+import org.junit.runner.Description;
+import org.junit.runner.Runner;
+import org.junit.runner.notification.Failure;
+import org.junit.runner.notification.RunListener;
+import org.junit.runner.notification.RunNotifier;
+import org.junit.runners.ParentRunner;
+import org.junit.runners.model.InitializationError;
+import pl.jdata.statest.utils.StatestCommonUtils;
 
 public class StatestSuiteJUnitRunner extends ParentRunner<Runner> {
 
@@ -32,14 +32,12 @@ public class StatestSuiteJUnitRunner extends ParentRunner<Runner> {
         try {
             final Method method = getDefinitionFactoryMethod(testClass);
             return (StatestSuiteDefinition) method.invoke(null);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException("Could not find createDefinition method in class " + testClass.getName());
         } catch (InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException("Error when executing createDefinition method for class " + testClass.getName());
         }
     }
 
-    private static Method getDefinitionFactoryMethod(Class<?> testClass) throws NoSuchMethodException {
+    private static Method getDefinitionFactoryMethod(Class<?> testClass) {
         final Method method = findDefinitionFactoryAnnotatedMethod(testClass);
 
         if (method.getReturnType() != StatestSuiteDefinition.class) {
@@ -89,7 +87,7 @@ public class StatestSuiteJUnitRunner extends ParentRunner<Runner> {
     protected void runChild(Runner child, final RunNotifier notifier) {
         notifier.addListener(new RunListener() {
             @Override
-            public void testFailure(Failure failure) throws Exception {
+            public void testFailure(Failure failure) {
                 notifier.pleaseStop();
             }
         });

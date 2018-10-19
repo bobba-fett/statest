@@ -1,16 +1,16 @@
 package pl.jdata.statest.common.junit;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+
 import com.google.common.collect.ImmutableMap;
-import pl.jdata.statest.utils.StatestCommonUtils;
-import pl.jdata.statest.common.StatestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
+import pl.jdata.statest.common.StatestUtils;
+import pl.jdata.statest.utils.StatestCommonUtils;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
@@ -71,16 +71,12 @@ public class InvokeStatestMethodStatement extends Statement {
         if (testAnnotation != null) {
             final CustomParameterFactory customParameterFactory =
                     customParameterFactories.get(testAnnotation.annotationType());
-            //noinspection unchecked
-            final Object result =
-                    customParameterFactory.getParameter(testAnnotation, parameterType, testStateRepository);
-            if (result != null && !parameterType.isInstance(result)) {
-                throw new RuntimeException(
-                        "Parameter returned from parameter factory is not of expected type. Expected type: "
-                                + parameterType.getName() + ", returned object type: " + result.getClass().getName());
-            }
-            //noinspection unchecked
-            return (T) result;
+
+            @SuppressWarnings("unchecked")
+            final T result =
+                    (T) customParameterFactory.getParameter(testAnnotation, parameterType, testStateRepository);
+
+            return result;
         }
 
         final String parameterId = StatestUtils.defaultObjectId(parameterType);
@@ -113,8 +109,8 @@ public class InvokeStatestMethodStatement extends Statement {
         if (returnType == null || returnType == Void.class || returnType == Void.TYPE) {
             if (annotationObjectId != null) {
                 throw new RuntimeException(
-                        "Marked test result storage (@Statest.storeResultIn) on method that returns void: " +
-                                StatestCommonUtils.createCodePointer(method));
+                        "Marked test result storage (@Statest.storeResultIn) on method that returns void: "
+                                + StatestCommonUtils.createCodePointer(method));
             }
             return;
         }

@@ -1,8 +1,8 @@
 package pl.jdata.statest.utils;
 
+import org.junit.runner.RunWith;
 import pl.jdata.statest.common.junit.Statest;
 import pl.jdata.statest.common.junit.StatestRunner;
-import org.junit.runner.RunWith;
 
 @RunWith(StatestRunner.class)
 public class AlwaysFailTest {
