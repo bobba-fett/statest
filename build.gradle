@@ -34,7 +34,7 @@ allprojects {
     apply plugin: "io.spring.dependency-management"
 
     group = 'pl.jdata.statest'
-    version = '1.0.0-SNAPSHOT'
+    version = '0.0.2-SNAPSHOT'
 
     dependencyManagement {
         dependencies {
