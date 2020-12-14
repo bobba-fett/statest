@@ -8,7 +8,7 @@ plugins {
     id 'java'
     id 'checkstyle'
     id "io.spring.dependency-management" version "1.0.6.RELEASE" apply false
-    id 'net.ltgt.apt' version '0.15' apply false
+    id "io.freefair.lombok" version "5.3.0"
 }
 
 ext {
@@ -23,14 +23,11 @@ ext {
     jacksonVersion = '2.9.7'
     javassistVersion = '3.12.1.GA'
     junitVersion = '4.12'
-    lombokVersion = '1.16.20'
     restAssuredVersion = '2.9.0'
     slf4jVersion = '1.7.12'
 }
 
 allprojects {
-    apply plugin: 'maven'
-    apply plugin: 'net.ltgt.apt'
     apply plugin: "io.spring.dependency-management"
 
     group = 'pl.jdata.statest'
@@ -50,7 +47,6 @@ allprojects {
             dependency "org.apache.commons:commons-lang3:$commonsLang3Version"
             dependency "org.apache.commons:commons-text:$commonsTextVersion"
             dependency "org.assertj:assertj-core:$assertjVersion"
-            dependency "org.projectlombok:lombok:$lombokVersion"
             dependency "org.slf4j:slf4j-log4j12:$slf4jVersion"
         }
     }
@@ -73,12 +69,8 @@ subprojects {
     }
 
     dependencies {
-        compileOnly 'org.projectlombok:lombok'
-
         checkstyle 'com.puppycrawl.tools:checkstyle'
 
-        annotationProcessor 'org.projectlombok:lombok'
-
-        testCompile 'junit:junit'
+        testImplementation 'junit:junit'
     }
 }
