@@ -1,7 +1,7 @@
 pipeline {
     agent {
       docker {
-        image 'gradle:6.7.1'
+        image 'gradle:6.7.1-jdk11'
       }
     }
     stages {
