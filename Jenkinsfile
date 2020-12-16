@@ -8,6 +8,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'gradle --console=plain clean build'
+                archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
             }
         }
     }
