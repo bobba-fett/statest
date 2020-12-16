@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Info') {
             steps {
-                echo "Branch name: $env"
+                echo "Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input\nPlease go to ${BUILD_URL} and verify the build"
             }
         }
         stage('Build') {
