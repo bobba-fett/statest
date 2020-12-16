@@ -2,7 +2,9 @@ pipeline {
     agent any
     stages {
         stage('Build') {
-            sh './gradlew --console=plain clean build'
+            steps {
+                sh './gradlew --console=plain clean build'
+            }
         }
     }
 }
